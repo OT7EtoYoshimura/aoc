@@ -16,7 +16,7 @@ main :: IO ()
 main = T.interact (T.pack . show . solve)
 
 solve :: Text -> (Integer, Integer)
-solve = (p1 *** p2) . dupe . map parse . T.lines
+solve = (p1 &&& p2) . map parse . T.lines
 
 parse :: Text -> [Integer]
 parse = rights . map (fmap fst . T.decimal) . T.splitOn "x"
