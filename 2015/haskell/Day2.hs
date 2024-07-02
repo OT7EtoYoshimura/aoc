@@ -9,11 +9,13 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import qualified Data.Text.Read as T
+import qualified TextShow as T
 
+type Solver = [[Integer]] -> Integer
 type Helper = [Integer] -> Integer
 
 main :: IO ()
-main = T.interact (T.pack . show . solve . map parse . T.lines)
+main = T.interact (T.showt . solve . map parse . T.lines)
 
 solve :: [[Integer]] -> (Integer, Integer)
 solve = p1 &&& p2
@@ -21,11 +23,11 @@ solve = p1 &&& p2
 parse :: Text -> [Integer]
 parse = rights . map (fmap fst . T.decimal) . T.splitOn "x"
 
-p1, p2 :: [[Integer]] -> Integer
+p1, p2 :: Solver
 p1 = common area smallestSide
 p2 = common ribbon bow
 
-common :: Helper -> Helper -> [[Integer]] -> Integer
+common :: Helper -> Helper -> Solver
 common f g = foldr1 (+) . map (liftA2 (+) f g)
 
 area, smallestSide, ribbon, bow :: Helper

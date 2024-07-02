@@ -5,9 +5,10 @@ import Data.Tuple.Extra
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
+import qualified TextShow as T
 
 main :: IO ()
-main = T.interact (T.pack . show . solve)
+main = T.interact (T.showt . solve)
 
 solve :: Text -> (Int, Int)
 solve = p1 &&& p2 . T.unpack
