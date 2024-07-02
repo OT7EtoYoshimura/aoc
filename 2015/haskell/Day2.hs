@@ -13,10 +13,10 @@ import qualified Data.Text.Read as T
 type Helper = [Integer] -> Integer
 
 main :: IO ()
-main = T.interact (T.pack . show . solve)
+main = T.interact (T.pack . show . solve . map parse . T.lines)
 
-solve :: Text -> (Integer, Integer)
-solve = (p1 &&& p2) . map parse . T.lines
+solve :: [[Integer]] -> (Integer, Integer)
+solve = p1 &&& p2
 
 parse :: Text -> [Integer]
 parse = rights . map (fmap fst . T.decimal) . T.splitOn "x"
