@@ -14,10 +14,14 @@ type Solver = [[Integer]] -> Integer
 type Helper =  [Integer]  -> Integer
 
 main :: IO ()
-main = T.interact (T.showt . solve . map parse . T.lines)
+main = T.interact ( T.showt
+                  . solve
+                  . parse
+                  )
 
-parse :: Text -> [Integer]
-parse = rights . map (fmap fst . T.decimal) . T.splitOn "x"
+parse :: Text -> [[Integer]]
+parse = map line . T.lines where
+  line = rights . map (fmap fst . T.decimal) . T.splitOn "x"
 
 solve :: [[Integer]] -> (Integer, Integer)
 solve = p1 &&& p2

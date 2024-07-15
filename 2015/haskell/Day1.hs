@@ -8,7 +8,10 @@ import qualified Data.Text.IO as T
 import qualified TextShow     as T
 
 main :: IO ()
-main = T.interact (T.showt . solve)
+main = T.interact ( T.showt
+                  . solve
+                  -- . parse
+                  )
 
 solve :: Text -> (Integer, Integer)
 solve = p1 &&& p2 . T.unpack

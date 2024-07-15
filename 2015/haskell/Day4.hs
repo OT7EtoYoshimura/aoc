@@ -9,7 +9,10 @@ import Data.Tuple.Extra
 
 -- Make sure there's no trailing newline character at the end
 main :: IO ()
-main = interact (show . solve . parse)
+main = interact ( show
+                . solve
+                . parse
+                )
 
 parse :: String -> [(Integer, String)]
 parse key = map (toSnd $ md5 . (++) key . show) [1..]
