@@ -34,7 +34,6 @@ cond1p1, cond2p1, cond3p1, cond1p2, cond2p2 :: Text -> Bool
 cond1p1 = (<=) 3 . T.length . T.filter isVowel
 cond2p1 = any ((1<) . T.length) . T.group
 cond3p1 = not . anyM elem ["ab", "cd", "pq", "xy"] . windowsT 2
-cond3p1v2 = not . or . traverse elem ["ab", "cd", "pq", "xy"] . windowsT 2
 cond1p2 = any (liftA2 T.isInfixOf (T.take 2) (T.drop 2)) . dropEnd1 . T.tails
 cond2p2 = any (liftA2 (==) fst3 thd3) . zip3Adj . T.unpack
 
