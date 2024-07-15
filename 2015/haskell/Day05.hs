@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Day5 where
+module Day05 where
 
 import Control.Monad.Extra
 import Data.List.Extra
