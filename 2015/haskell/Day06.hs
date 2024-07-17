@@ -1,12 +1,12 @@
 module Day06 where
 
 import Control.Applicative
-import Control.Monad
 import Data.Char
-import Data.Composition
-import Data.Function
 import Data.Maybe
+import Control.Monad
+import Data.Composition
 import Data.Tuple.Extra
+import Data.Function
 import Text.ParserCombinators.ReadP
 
 newtype Coords = Coords { unCoords :: (Int, Int) } deriving (Show, Eq)
@@ -14,8 +14,20 @@ data Dir = On     Coords Coords
          | Off    Coords Coords
          | Toggle Coords Coords deriving (Show, Eq)
 
+--- Standard boilerplatea ---
+main :: IO ()
+main = interact (show . solve . parse)
+
 parse :: String -> [Dir]
-parse = concat . map fst . (readP_to_S $ many1 $ dir <* skipSpaces)
+parse = concatMap fst . readP_to_S (many1 $ dir <* skipSpaces)
+
+solve :: [Dir] -> (Int, Int)
+solve = p1 &&& p2
+
+p1, p2 :: [Dir] -> Int
+p1 = error "unimplemented: p1"
+p2 = error "unimplemented: p2"
+-----------------------------
 
 --- Grid logic utilities ---
 cntCells :: Coords -> Coords -> Int
@@ -27,9 +39,6 @@ range = succ . abs .: (-)
 
 -- zipPair :: ((a, b), (c, d)) -> ((a, c), (b, d))
 zipPair = on (&&&) (join (***)) fst snd
--- zipPair = join (***) fst &&& join (***) snd
--- zipPair = (fst *** fst) &&& (snd *** snd)
--- zipPair ((x1, y1), (x2, y2)) = ((x1, x2), (y1, y2))
 -----------------------
 
 --- ReadP parsing utilities ---
