@@ -9,49 +9,52 @@ import Data.Tuple.Extra
 import Data.Function
 import Text.ParserCombinators.ReadP
 
-newtype Coords = Coords { unCoords :: (Int, Int) } deriving (Show, Eq)
-data Dir = On     Coords Coords
-         | Off    Coords Coords
-         | Toggle Coords Coords deriving (Show, Eq)
+newtype Coords = Coords { unCoords :: (Int   , Int   ) } deriving (Show, Eq)
+newtype Range  = Range  { unRange  :: (Coords, Coords) } deriving (Show, Eq)
+data Act = On     Range
+         | Off    Range
+         | Toggle Range deriving (Show, Eq)
 
---- Standard boilerplatea ---
+--- Standard boilerplate ---
 main :: IO ()
 main = interact (show . solve . parse)
 
-parse :: String -> [Dir]
-parse = concatMap fst . readP_to_S (many1 $ dir <* skipSpaces)
+parse :: String -> [Act]
+parse = concatMap fst . readP_to_S (many1 $ act <* skipSpaces)
 
-solve :: [Dir] -> (Int, Int)
+solve :: [Act] -> (Int, Int)
 solve = p1 &&& p2
 
-p1, p2 :: [Dir] -> Int
+p1, p2 :: [Act] -> Int
 p1 = error "unimplemented: p1"
 p2 = error "unimplemented: p2"
 -----------------------------
 
 --- Grid logic utilities ---
-cntCells :: Coords -> Coords -> Int
-cntCells = uncurry (on (*) (uncurry range))
-         . zipPair .: curry (both unCoords)
+cntCells :: Range -> Int
+cntCells = uncurry (*) . both dist . zipPair . both unCoords . unRange
 
-range :: Int -> Int -> Int
-range = succ . abs .: (-)
+dist :: (Int, Int) -> Int
+dist = succ . abs . uncurry (-)
 
 -- zipPair :: ((a, b), (c, d)) -> ((a, c), (b, d))
 zipPair = on (&&&) (join (***)) fst snd
 -----------------------
 
 --- ReadP parsing utilities ---
-dir :: ReadP Dir
-dir = makeDir <$> command <* skipSpaces <*> coords <* skipSpaces <* string "through" <* skipSpaces <*> coords
+act :: ReadP Act
+act = makeAct <$> command <* skipSpaces <*> range
 
-makeDir :: String -> Coords -> Coords -> Dir
-makeDir = fromMaybe (error "makeDir") . flip lookup [ ("turn on" , On    )
+makeAct :: String -> Range -> Act
+makeAct = fromMaybe (error "makeAct") . flip lookup [ ("turn on" , On    )
                                                     , ("turn off", Off   )
                                                     , ("toggle"  , Toggle) ]
 
 command :: ReadP String
 command = choice $ string <$> ["turn on", "turn off", "toggle"]
+
+range :: ReadP Range
+range = Range <$> surround coords (join between skipSpaces $ string "through")
 
 coords :: ReadP Coords
 coords = Coords <$> surround int (char ',')
