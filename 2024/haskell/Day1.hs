@@ -1,7 +1,6 @@
 module Day1 where
 
 import Data.Char
-import Data.List
 import Data.Composition
 import Data.Tuple.Extra
 
@@ -21,5 +20,3 @@ parse = both sort
       . unzip
       . map (both read . break isSpace)
       . lines
-
-
