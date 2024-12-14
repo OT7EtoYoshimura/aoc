@@ -28,6 +28,8 @@ p2 = const maxBound
 parseObstacles :: [String] -> [Coords]
 parseObstacles = concat . zipWithFrom (map . flip (,)) 0 . map (elemIndices '#')
 
+-- If we call elemIndex '^' on the origina unlined list, we can then `div` and
+-- `mod` it by the line length to get the coordinate values more easily.
 parseGuard :: [String] -> (Dir, Coords)
 parseGuard = (U,) . head . catMaybes . zipWith (liftA2 $ flip (,)) (map Just [0..]) . map (elemIndex '^')
 
