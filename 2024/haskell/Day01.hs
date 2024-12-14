@@ -1,4 +1,4 @@
-module Day1 where
+module Day01 where
 
 import Data.Char
 import Data.Composition

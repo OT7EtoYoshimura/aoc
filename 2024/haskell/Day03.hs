@@ -1,4 +1,4 @@
-module Day3 where
+module Day03 where
 
 import Data.Char
 import Data.Maybe

@@ -1,4 +1,4 @@
-module Day5 where
+module Day05 where
 
 import Data.List.Extra
 import Data.Tuple.Extra
@@ -10,7 +10,7 @@ main = interact (show . solve . parse)
 
 parse :: String -> ([[String]], [[String]])
 parse = bimap parseRul parseUps . fromJust . stripInfix [""] . lines
-  where parseUps = map $ splitOn ","
+  where parseUps = map $           splitOn ","
         parseRul = map $ reverse . splitOn "|"
 
 solve :: ([[String]], [[String]]) -> (Int, Int)

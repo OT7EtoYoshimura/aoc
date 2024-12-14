@@ -1,4 +1,4 @@
-module Day6 where
+module Day06 where
 
 import Data.List.Extra
 import Data.Tuple.Extra
